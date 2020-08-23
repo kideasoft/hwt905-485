@@ -18,7 +18,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let mut hwt905 = Hwt905::new(&args.port, 0x50, args.baud)?;
     loop {
-        sleep(Duration::from_millis(500));
+        // sleep(Duration::from_millis(500));
         let mf = hwt905.magnetic_field()?;
         println!("magnetic field: x {}, y {}, z {}", mf.0, mf.1, mf.2);
     }

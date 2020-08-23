@@ -30,7 +30,7 @@ impl Hwt905 {
         buffer.extend_from_slice(&crc);
         self.port.write(&buffer)?;
 
-        std::thread::sleep(std::time::Duration::from_millis(200));
+        std::thread::sleep(std::time::Duration::from_millis(50));
 
         let mut buf = [0_u8; 1024];
         let n = self.port.read(&mut buf)?;
