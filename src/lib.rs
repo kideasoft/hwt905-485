@@ -5,7 +5,7 @@
 
 use chrono::prelude::*;
 use crc16::*;
-use serialport::{Error, SerialPort};
+use serialport::{Error, ErrorKind, SerialPort};
 
 pub struct Hwt905 {
     modbus_addr: u8,
@@ -37,6 +37,13 @@ impl Hwt905 {
 
         // DEBUG:
         // println!("receive: {:?}", &buf[..n]);
+
+        if n < 3 {
+            return Err(Error::new(
+                ErrorKind::Io(std::io::ErrorKind::InvalidData),
+                "Invalid data",
+            ));
+        }
 
         let crc = crc16::State::<MODBUS>::calculate(&buf[..n - 2]);
         let crc_check = crc == u16::from_le_bytes([buf[n - 2], buf[n - 1]]);
